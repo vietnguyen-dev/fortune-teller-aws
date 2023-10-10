@@ -6,16 +6,13 @@ const inter = Inter({ subsets: ["latin"] });
 
 type tAnswer = "yes" | "no" | null;
 
-interface iQuestions {
-  answer: string;
-  question: string;
-}
-
 const fortuneTeller = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API!,
   timeout: 1000,
   headers: {
-    "Content-type": "application/json",
+    "Access-Control-Allow-Headers": "Content-Type",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
   },
 });
 
@@ -38,11 +35,16 @@ export default function Home() {
       if (error === true) {
         setError(false);
       }
-      const data = await fortuneTeller.get("/");
+      const data = await fortuneTeller.get("");
+      console.log(data);
       setAnswer(data.data);
     } else {
       setError(true);
     }
+  };
+
+  const clear = () => {
+    setQuestion("");
   };
 
   return (
@@ -59,12 +61,21 @@ export default function Home() {
               onChange={handleQuestion}
             />
             {error && (
-              <p className="text-right text-error mt-1">
+              <p className="text-right text-error mt-1 mask mask-hexagon">
                 add question mark to end
               </p>
             )}
           </div>
-          <button className="btn btn-primary ml-6">SUBMIT</button>
+          <button className="btn btn-primary ml-6" type="submit">
+            SUBMIT
+          </button>
+          <button
+            className="btn btn-secondary ml-6"
+            type="button"
+            onClick={clear}
+          >
+            CLEAR
+          </button>
         </form>
         <div className="w-96 h-96 flex justify-center items-center">
           {answer && <h2 className="text-3xl">{answer}</h2>}
