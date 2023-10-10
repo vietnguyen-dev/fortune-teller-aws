@@ -11,7 +11,13 @@ interface iQuestions {
   question: string;
 }
 
-const apiUrl = process.env.NEXT_PUBLIC_API!;
+const fortuneTeller = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_API!,
+  timeout: 1000,
+  headers: {
+    "Content-type": "application/json",
+  },
+});
 
 export default function Home() {
   const [question, setQuestion] = useState<string>("");
@@ -32,7 +38,7 @@ export default function Home() {
       if (error === true) {
         setError(false);
       }
-      const data = await axios.get(apiUrl);
+      const data = await fortuneTeller.get("/");
       setAnswer(data.data);
     } else {
       setError(true);
