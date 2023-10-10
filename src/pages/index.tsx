@@ -60,7 +60,7 @@ export default function Home() {
               onChange={handleQuestion}
             />
             {error && (
-              <p className="text-right text-error mt-1 mask mask-hexagon">
+              <p className="text-right text-error mt-1">
                 add question mark to end
               </p>
             )}
