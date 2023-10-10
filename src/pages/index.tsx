@@ -36,7 +36,6 @@ export default function Home() {
         setError(false);
       }
       const data = await fortuneTeller.get("");
-      console.log(data);
       setAnswer(data.data);
     } else {
       setError(true);
